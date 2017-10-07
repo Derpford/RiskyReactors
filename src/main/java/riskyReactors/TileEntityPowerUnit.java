@@ -1,4 +1,4 @@
-package simplyTools;
+package riskyReactors;
 
 import cofh.api.energy.IEnergyContainerItem;
 import cofh.api.energy.IEnergyHandler;

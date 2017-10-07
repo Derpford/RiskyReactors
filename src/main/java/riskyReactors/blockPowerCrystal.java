@@ -1,4 +1,4 @@
-package simplyTools;
+package riskyReactors;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -21,8 +21,8 @@ public class blockPowerCrystal extends BlockContainer implements ITileEntityProv
 	protected blockPowerCrystal() {
 		super(Material.rock);
 		
-		setBlockName(SimplyMain.modid + "_" + "blockPowerCrystal");
-		setBlockTextureName(SimplyMain.modid+":"+"blockPowerCrystal");
+		setBlockName(main.modid + "_" + "blockPowerCrystal");
+		setBlockTextureName(main.modid+":"+"blockPowerCrystal");
 		setCreativeTab(CreativeTabs.tabBlock);
 		setHardness(4.0f);
 		setLightLevel(10);
@@ -66,7 +66,7 @@ public class blockPowerCrystal extends BlockContainer implements ITileEntityProv
 		ArrayList<ItemStack> items = new ArrayList<ItemStack>();
 		numShards = 1 + world.rand.nextInt(2);
 		numDust = 4 - numShards;
-		items.add(new ItemStack(SimplyMain.powerShard, numShards));
+		items.add(new ItemStack(main.powerShard, numShards));
 		items.add(new ItemStack(Items.redstone, numDust));
 		return items;
 	}

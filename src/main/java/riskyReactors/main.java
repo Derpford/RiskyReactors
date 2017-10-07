@@ -1,4 +1,4 @@
-package simplyTools;
+package riskyReactors;
 
 
 import net.minecraft.block.Block;
@@ -7,6 +7,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import cpw.mods.fml.common.Mod;
@@ -16,15 +17,36 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 @Mod(
-			modid=SimplyMain.modid,
-			name=SimplyMain.name,
-			version=SimplyMain.version,
+			modid=main.modid,
+			name=main.name,
+			version=main.version,
 			dependencies="required-after:Forge@[10.13.2.1232,); required-after:CoFHCore",
 			acceptedMinecraftVersions="[1.7.10]"
 	)
 
 
-public class SimplyMain {
+public class main {
+	public static Block getAdjacentBlock(World world, int side, int x, int y, int z) {
+		
+		if(i == 2)
+		{
+			z -=1;
+		}
+		if(i == 3)
+		{
+			x +=1;
+		}
+		if(i == 4)
+		{
+			z +=1;
+		}
+		if(i == 5)
+		{
+			x-=1;
+		}
+		Block target = world.getBlock(x, y, z);
+		return target;
+	}
 	public static final String modid = "simplypowertools";
 	public static final String name = "Simply Power Tools!";
 	public static final String version = "0.1";

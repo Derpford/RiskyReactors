@@ -1,4 +1,4 @@
-package simplyTools;
+package riskyReactors;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
@@ -12,16 +12,17 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 
-public class TileEntityPowerCrystal extends TileEntityPowerUnit {
+public class TileEntityPowerCrystal extends TileEntity {
 
-	int heat;
-	int maxEnergy = 200000;
+	private int heat;
+	private int maxEnergy = 200000;
+	private int energy = 0;
+	private int maxTransfer;
 	@Override
 	public boolean canUpdate() {
 		// TODO Auto-generated method stub
 		return true;
 	}
-	@Override
 	public int extractEnergy(ForgeDirection arg0, int arg1, boolean arg2) {
 		// TODO Auto-generated method stub
 		if(energy < 1)
@@ -42,38 +43,12 @@ public class TileEntityPowerCrystal extends TileEntityPowerUnit {
 		}
 	}
 	
-	public int getHeatNearby(World world)
+	private int getHeatNearby(World world)
 	{
 		int totalTemp = 0;
 		for(int i = 2; i < 6; i++)
 		{
-			int x;
-			int y;
-			int z;
-			x = this.xCoord;
-			y = this.yCoord;
-			z = this.zCoord;
-			if(i == 2)
-			{
-				x = this.xCoord;
-				z = this.zCoord-1;
-			}
-			if(i == 3)
-			{
-				x = this.xCoord+1;
-				z = this.zCoord;
-			}
-			if(i == 4)
-			{
-				x = this.xCoord;
-				z = this.zCoord+1;
-			}
-			if(i == 5)
-			{
-				x = this.xCoord-1;
-				z = this.zCoord;
-			}
-			Block target = world.getBlock(x, y, z);
+			Block target = main.getAdjacentBlock(world,i,this.xCoord,this.yCoord,this.zCoord);
 			Fluid targetType = FluidRegistry.lookupFluidForBlock(target);
 			if(targetType!=null)
 			{

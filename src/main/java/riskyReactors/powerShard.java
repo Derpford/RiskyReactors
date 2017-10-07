@@ -1,4 +1,4 @@
-package simplyTools;
+package riskyReactors;
 
 import java.util.List;
 
@@ -16,8 +16,8 @@ import net.minecraft.world.World;
 public class powerShard extends Item {
 	public powerShard()
 	{
-		setTextureName(SimplyMain.modid+":"+"powerShard");
-		setUnlocalizedName(SimplyMain.modid+"_"+"powerShard");
+		setTextureName(main.modid+":"+"powerShard");
+		setUnlocalizedName(main.modid+"_"+"powerShard");
 		setCreativeTab(CreativeTabs.tabMaterials);
 	}
 }
