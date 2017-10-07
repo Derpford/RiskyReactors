@@ -1,0 +1,6 @@
+{
+ "drillStart": {"category": "master","sounds":[{"name": "drillStart","stream": false}]},
+ "drillReady": {"category": "master","sounds":[{"name": "drillReady","stream": false}]},
+ "drillLoop": {"category": "master","sounds":[{"name": "drillLoop","stream": false}]},
+ "drillStop": {"category": "master","sounds":[{"name": "drillStop","stream": false}]}
+}
