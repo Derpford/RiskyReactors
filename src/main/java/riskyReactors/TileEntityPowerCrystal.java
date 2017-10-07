@@ -96,7 +96,6 @@ public class TileEntityPowerCrystal extends TileEntity implements ITileEntityPro
 		super.writeToNBT(nbt);
 	}
 	
-	@Override
 	public void processActivate(EntityPlayer player, World world) {
 		// TODO Auto-generated method stub
 		ItemStack stack = player.getCurrentEquippedItem();
