@@ -38,8 +38,7 @@ public class blockPowerUnitAdvanced extends blockPowerUnitCopper implements ITil
 	public TileEntity createNewTileEntity(World world, int beans) {
 		try
 		{
-			TileEntityPowerUnit t = new TileEntityPowerUnit();
-			t.maxTransfer = 400;
+			TileEntityPowerUnit t = new TileEntityPowerUnit(2000,400);
 			return t;
 		}
 		catch (Exception var3)

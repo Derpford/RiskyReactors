@@ -1,5 +1,6 @@
 package riskyReactors;
 
+import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyContainerItem;
 import cofh.api.energy.IEnergyHandler;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,9 +13,17 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityPowerUnit extends TileEntity implements IEnergyHandler{
-	int energy = 0;
-	int maxEnergy = 2000;
-	int maxTransfer = 80;
+	EnergyStorage storage = new EnergyStorage(2000,80);
+	
+	public TileEntityPowerUnit(int maxStorage,int rate)
+	{
+		storage.setCapacity(maxStorage);
+		storage.setMaxExtract(rate);
+	}
+	
+	//int energy = 0;
+	//int maxEnergy = 2000;
+	//int maxTransfer = 80;
 	
 	public void processActivate(EntityPlayer player, World world)
 	{
@@ -22,7 +31,7 @@ public class TileEntityPowerUnit extends TileEntity implements IEnergyHandler{
 		//System.out.println(stack);
 		if(stack == null)
 		{
-			ChatComponentText message = new ChatComponentText("This Power Unit contains " + energy + " Redstone Flux");
+			ChatComponentText message = new ChatComponentText("This Power Unit contains " + storage.getEnergyStored() + " Redstone Flux");
 			player.addChatMessage(message);
 		}
 		else
@@ -30,82 +39,73 @@ public class TileEntityPowerUnit extends TileEntity implements IEnergyHandler{
 			Item stackThing = stack.getItem();
 			if(stackThing instanceof IEnergyContainerItem)
 			{
-				if(energy > maxTransfer)
+				if(storage.extractEnergy(storage.getMaxExtract(), true)!=0)
 				{
-					((IEnergyContainerItem) stackThing).receiveEnergy(stack, maxTransfer, false);
+					((IEnergyContainerItem) stackThing).receiveEnergy(stack, storage.getMaxExtract(), false);
 					System.out.println("Power Unit Sending Energy to "+stack.getDisplayName());
-					energy = energy - maxTransfer;
-					this.markDirty();
+					storage.extractEnergy(storage.getMaxExtract(), false);
 				}
-				else if(energy > 0)
-				{
-					((IEnergyContainerItem) stackThing).receiveEnergy(stack, energy, false);
-					System.out.println("Power Unit Sending All Energy to "+stack.getDisplayName());
-					energy = 0;
-					this.markDirty();
-				}
+				
+			}
 			}
 		}
-	}
+	
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt)
 	{
-		this.energy = nbt.getInteger("energy");
-		this.maxTransfer = nbt.getInteger("maxTransfer");
+		storage.setEnergyStored(nbt.getInteger("energy"));
+		storage.setCapacity(nbt.getInteger("maxTransfer"));
 		super.readFromNBT(nbt);
 	}
 	@Override
 	public void writeToNBT(NBTTagCompound nbt)
 	{
-		nbt.setInteger("energy", energy);
-		nbt.setInteger("maxTransfer", maxTransfer);
+		nbt.setInteger("energy", storage.getEnergyStored());
+		nbt.setInteger("maxTransfer", storage.getMaxExtract());
 		super.writeToNBT(nbt);
 	}
 
 	@Override
-	public boolean canConnectEnergy(ForgeDirection arg0) { //we don't have any sides that can't connect
+	public boolean canConnectEnergy(ForgeDirection arg0) { //All sides can be connected to.
 		return true;
 	}
 
 	@Override
 	public int extractEnergy(ForgeDirection arg0, int arg1, boolean arg2) {
-		//This block doesn't just give out energy!
-		return 0;
+		//Down only.
+		int transferredEnergy = 0;
+		if(arg0 == ForgeDirection.DOWN) { 
+			if(storage.extractEnergy(arg1, true)!=0)
+					{
+						transferredEnergy = storage.extractEnergy(arg1, arg2);
+					}
+		}
+		return transferredEnergy;
 	}
 
 	@Override
 	public int getEnergyStored(ForgeDirection arg0) {
 		// TODO Auto-generated method stub
 		
-		return energy;
+		return storage.getEnergyStored();
 	}
 
 	@Override
 	public int getMaxEnergyStored(ForgeDirection arg0) {
 		// TODO Auto-generated method stub
-		return maxEnergy;
+		return storage.getMaxEnergyStored();
 	}
 
 	@Override
 	public int receiveEnergy(ForgeDirection arg0, int arg1, boolean arg2) {
-		if(energy < maxEnergy - arg1)
+		if(arg0 != ForgeDirection.DOWN)
 		{
-			int newEnergy = energy + arg1;
-			energy = newEnergy;
-			return arg1;
-		}
-		else if(energy < maxEnergy)
-		{
-			int newEnergy = maxEnergy;
-			int oldEnergy = energy;
-			energy = newEnergy;
-			return maxEnergy - oldEnergy;
-
+			return storage.receiveEnergy(arg1, arg2);
 		}
 		else
 		{
-		return 0;
+			return 0;
 		}
 	}	
 }

@@ -27,23 +27,12 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class main {
 	public static Block getAdjacentBlock(World world, int side, int x, int y, int z) {
-		
-		if(side == 2)
-		{
-			z -=1;
-		}
-		if(side == 3)
-		{
-			x +=1;
-		}
-		if(side == 4)
-		{
-			z +=1;
-		}
-		if(side == 5)
-		{
-			x-=1;
-		}
+		if(side == 0) { y -= 1;}
+		if(side == 1) { y += 1;}
+		if(side == 2) { z -= 1;}
+		if(side == 3) {	x += 1;}
+		if(side == 4) {	z += 1;}
+		if(side == 5) {	x -= 1;}
 		Block target = world.getBlock(x, y, z);
 		return target;
 	}

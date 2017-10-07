@@ -29,7 +29,7 @@ public class blockPowerUnitCopper extends BlockContainer implements ITileEntityP
 	}
 	@Override
 	public IIcon getIcon(int side, int meta) {
-	    if(side == 1){
+	    if(side == 1 || side == 0){
 	    	return this.icons[1];
 	    } else {
 	    	return this.icons[0];
@@ -54,7 +54,7 @@ public class blockPowerUnitCopper extends BlockContainer implements ITileEntityP
 	public TileEntity createNewTileEntity(World world, int beans) {
 		try
 		{
-			return new TileEntityPowerUnit();
+			return new TileEntityPowerUnit(2000,80);
 		}
 		catch (Exception var3)
 		{
