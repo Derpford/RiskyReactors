@@ -1,6 +1,16 @@
 [
-	{
-	"modid": "RiskyReactors"
-	"name": "Risky Reactors"
-	}
+{
+  "modid": "riskyreactors",
+  "name": "Risky Reactors",
+  "description": "Cheap RF power and endgame block duplication, but with a catch...",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Derpford"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
 ]
