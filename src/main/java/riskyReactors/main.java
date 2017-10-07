@@ -64,12 +64,9 @@ public class main {
 		System.out.println(main.name+": Making Sounds");
 		
 		System.out.println(main.name+": Making the Tool Materials");
-		//ToolMaterial powerbasic = EnumHelper.addToolMaterial("powerbasic", 2, 0, 6.0F, 2, 0);
-		//ToolMaterial powerdiamond = EnumHelper.addToolMaterial("powerdiamond", 4, 0, 6.0f, 4, 0);
 		
 		System.out.println(main.name+": Making TEs");
 		tilePowerUnit = TileEntityPowerUnit.class;
-		tilePowerCrystal = TileEntityPowerCrystal.class;
 		GameRegistry.registerTileEntity(tilePowerUnit, "TEPowerUnit");
 		GameRegistry.registerTileEntity(tilePowerCrystal, "TEPowerCrystal");
 		
