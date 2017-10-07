@@ -28,29 +28,29 @@ import cpw.mods.fml.common.registry.GameRegistry;
 public class main {
 	public static Block getAdjacentBlock(World world, int side, int x, int y, int z) {
 		
-		if(i == 2)
+		if(side == 2)
 		{
 			z -=1;
 		}
-		if(i == 3)
+		if(side == 3)
 		{
 			x +=1;
 		}
-		if(i == 4)
+		if(side == 4)
 		{
 			z +=1;
 		}
-		if(i == 5)
+		if(side == 5)
 		{
 			x-=1;
 		}
 		Block target = world.getBlock(x, y, z);
 		return target;
 	}
-	public static final String modid = "simplypowertools";
-	public static final String name = "Simply Power Tools!";
+	public static final String modid = "riskyreactors";
+	public static final String name = "Risky Reactors";
 	public static final String version = "0.1";
-	public static simplyWorldGen worldgen = new simplyWorldGen();
+	public static worldGen worldgen = new worldGen();
 	public static Block powerUnitCopper;
 	public static Block powerUnitAdvanced;
 	public static Block powerCrystal;
@@ -66,25 +66,25 @@ public class main {
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		//modMetadata = event.getModMetadata();
-		System.out.println("Simply Power Tools: Now in Forge.");
+		System.out.println(main.name+": Now in Forge.");
 	}
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
-		System.out.println("Simply Power Tools: Making the worldgen");
+		System.out.println(main.name+": Making the worldgen");
 		GameRegistry.registerWorldGenerator(worldgen, 3);
-		System.out.println("Simply Power Tools: Making Sounds");
+		System.out.println(main.name+": Making Sounds");
 		
-		System.out.println("Simply Power Tools: Making the Tool Materials");
-		ToolMaterial powerbasic = EnumHelper.addToolMaterial("powerbasic", 2, 0, 6.0F, 2, 0);
-		ToolMaterial powerdiamond = EnumHelper.addToolMaterial("powerdiamond", 4, 0, 6.0f, 4, 0);
+		System.out.println(main.name+": Making the Tool Materials");
+		//ToolMaterial powerbasic = EnumHelper.addToolMaterial("powerbasic", 2, 0, 6.0F, 2, 0);
+		//ToolMaterial powerdiamond = EnumHelper.addToolMaterial("powerdiamond", 4, 0, 6.0f, 4, 0);
 		
-		System.out.println("Simply Power Tools: Making TEs");
+		System.out.println(main.name+": Making TEs");
 		tilePowerUnit = TileEntityPowerUnit.class;
 		tilePowerCrystal = TileEntityPowerCrystal.class;
 		GameRegistry.registerTileEntity(tilePowerUnit, "TEPowerUnit");
 		GameRegistry.registerTileEntity(tilePowerCrystal, "TEPowerCrystal");
 		
-		System.out.println("Simply Power Tools: Making Blocks");
+		System.out.println(main.name+": Making Blocks");
 		powerUnitCopper = new blockPowerUnitCopper();
 		powerUnitAdvanced = new blockPowerUnitAdvanced();
 		powerCrystal = new blockPowerCrystal();
@@ -92,77 +92,26 @@ public class main {
 		GameRegistry.registerBlock(powerUnitAdvanced, "powerUnitAdvanced");
 		GameRegistry.registerBlock(powerCrystal, "powerCrystal");
 		
-		System.out.println("Simply Power Tools: Making Items");
+		System.out.println(main.name+": Making Items");
 		powerShard = new powerShard();
-		powerDrill = new itemDrill(3.0f, powerbasic, null);
-		powerDiamondDrill = new itemDiamondDrill(4.0f, powerdiamond, null);
-		powerPiercingDrill = new itemPiercingDrill(3.0f, powerbasic, null);
-		powerSaw = new itemChainsaw(3.0f, powerbasic, null);
-		chainSword = new itemChainSword(3.0f, powerbasic, null);
 		GameRegistry.registerItem(powerShard, "powerShard");
-		GameRegistry.registerItem(powerDrill, "powerDrill");
-		GameRegistry.registerItem(powerDiamondDrill, "powerDiamondDrill");
-		GameRegistry.registerItem(powerPiercingDrill, "powerPiercingDrill");
-		GameRegistry.registerItem(powerSaw, "powerSaw");
-		GameRegistry.registerItem(chainSword, "chainSword");
 		
-		System.out.println("Simply Power Tools: Making Recipes");
+		System.out.println(main.name+": Making Recipes");
 		//Power Unit T1
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(SimplyMain.powerUnitCopper), new Object[]{
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(main.powerUnitCopper), new Object[]{
 			" G ",
 			"CRC",
 			"CCC",
 			'G', "gearIron", 'C', "ingotCopper", 'R', "dustRedstone"
 		}));
 		//Power Unit T2
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(SimplyMain.powerUnitAdvanced), new Object[]{
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(main.powerUnitAdvanced), new Object[]{
 			" G ",
 			"IRI",
 			"III",
-			'G', SimplyMain.powerUnitCopper, 'I', "ingotIron", 'R', "blockRedstone"
-		}));
-		//Power Drill
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(SimplyMain.powerDrill), new Object[]{
-			"II ",
-			"IB ",
-			"  P",
-			'I', "ingotIron", 'B', new ItemStack(Items.iron_pickaxe), 'P', SimplyMain.powerUnitCopper
-		}));
-		//Power Drill--Diamond Upgrade
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(SimplyMain.powerDiamondDrill), new Object[]{
-			" D ",
-			"DUD",
-			"   ",
-			'D', "gemDiamond", 'U', SimplyMain.powerDrill
-		}));
-		//Power Drill--Piercing Upgrade
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(SimplyMain.powerPiercingDrill), new Object[]{
-			" F ",
-			"FDF",
-			" U ",
-			'F', new ItemStack(Items.flint), 'D', "blockIron", 'U', SimplyMain.powerDrill
-		}));
-		//Power Saw
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(SimplyMain.powerSaw), new Object[]{
-			"II ",
-			"IB ",
-			"  P",
-			'I', "ingotIron", 'B', new ItemStack(Items.iron_axe), 'P', SimplyMain.powerUnitCopper
-		}));
-		//Chain Sword
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(SimplyMain.chainSword), new Object[]{
-			"S  ",
-			" B ",
-			"  I",
-			'I', new ItemStack(SimplyMain.powerSaw), 'B', new ItemStack(SimplyMain.powerUnitAdvanced), 'S', new ItemStack(Items.iron_sword)
+			'G', main.powerUnitCopper, 'I', "ingotIron", 'R', "blockRedstone"
 		}));
 	}
-	private Item itemPiercingDrill(float f, ToolMaterial powerbasic,
-			Object object) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 }
 
 

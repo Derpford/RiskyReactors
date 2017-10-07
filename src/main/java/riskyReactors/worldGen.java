@@ -7,7 +7,7 @@ import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import cpw.mods.fml.common.IWorldGenerator;
 
-public class simplyWorldGen implements IWorldGenerator {
+public class worldGen implements IWorldGenerator {
 
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world,
@@ -17,7 +17,7 @@ public class simplyWorldGen implements IWorldGenerator {
 			int crystalgenX = chunkX*16 + random.nextInt(16);
 			int crystalgenY = 4 + random.nextInt(32);
 			int crystalgenZ = chunkZ*16 + random.nextInt(16);
-			(new WorldGenMinable(SimplyMain.powerCrystal, 20)).generate(world, random, crystalgenX, crystalgenY, crystalgenZ); 
+			(new WorldGenMinable(main.powerCrystal, 20)).generate(world, random, crystalgenX, crystalgenY, crystalgenZ); 
 			//System.out.println("Placing Power Crystal at " + crystalgenX + "/" + crystalgenY + "/" + crystalgenZ);
 		}
 		// TODO Auto-generated method stub

@@ -17,8 +17,8 @@ public class blockPowerUnitCopper extends BlockContainer implements ITileEntityP
 	{
 		super(Material.iron);
 		
-		setBlockName(SimplyMain.modid + "_" + "blockPowerUnitCopper");
-		setBlockTextureName(SimplyMain.modid+":"+"blockPowerUnitCopper");
+		setBlockName(main.modid + "_" + "blockPowerUnitCopper");
+		setBlockTextureName(main.modid+":"+"blockPowerUnitCopper");
 		setCreativeTab(CreativeTabs.tabMaterials);
 		setHardness(4.0f);
 	}

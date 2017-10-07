@@ -16,8 +16,8 @@ public class blockPowerUnitAdvanced extends blockPowerUnitCopper implements ITil
 	public blockPowerUnitAdvanced()
 	{
 		super();
-		setBlockName(SimplyMain.modid + "_" + "blockPowerUnitAdvanced");
-		setBlockTextureName(SimplyMain.modid+":"+"blockPowerUnitAdvanced");
+		setBlockName(main.modid + "_" + "blockPowerUnitAdvanced");
+		setBlockTextureName(main.modid+":"+"blockPowerUnitAdvanced");
 		setCreativeTab(CreativeTabs.tabMaterials);
 	}
 	@Override

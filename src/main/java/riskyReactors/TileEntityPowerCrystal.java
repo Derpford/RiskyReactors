@@ -2,6 +2,7 @@ package riskyReactors;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -12,7 +13,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 
-public class TileEntityPowerCrystal extends TileEntity {
+public class TileEntityPowerCrystal extends TileEntity implements ITileEntityProvider{
 
 	private int heat;
 	private int maxEnergy = 200000;
@@ -107,6 +108,18 @@ public class TileEntityPowerCrystal extends TileEntity {
 			player.addChatMessage(message);
 			ChatComponentText message2 = new ChatComponentText("Heat Level:" + heat);
 			player.addChatMessage(message2);
+		}
+	}
+	@Override
+	public TileEntity createNewTileEntity(World world, int beans) {
+		// TODO Auto-generated method stub
+		try
+		{
+			return new TileEntityPowerCrystal();
+		}
+		catch (Exception var3)
+		{
+			throw new RuntimeException(var3);
 		}
 	}
 }
