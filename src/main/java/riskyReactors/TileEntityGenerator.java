@@ -36,61 +36,62 @@ public class TileEntityGenerator extends TileEntity implements IEnergyHandler {
 	
 	@Override
 	public void updateEntity() {
-			if(storage.receiveEnergy(10, true)!=0 && !isOverheated)
+		//Generate power.	
+		if(!isOverheated && !isShutdown && storage.receiveEnergy(10, true)!=0)
+		{
+			//storage.setEnergyStored(Math.min(storage.getEnergyStored()+10, storage.getMaxEnergyStored()));
+			storage.receiveEnergy(10, false);
+		}
+		int[] target = main.getAdjacentCoord(this.worldObj, 0, this.xCoord, this.yCoord, this.zCoord);
+		TileEntity tile = this.worldObj.getTileEntity(target[0], target[1], target[2]);
+		if(tile instanceof IEnergyHandler)
+		{
+			int maxSent=storage.extractEnergy(storage.getMaxExtract(), true);
+			int actualSent=((IEnergyHandler) tile).receiveEnergy(ForgeDirection.UP, maxSent, false);
+			storage.extractEnergy(actualSent, false);
+		}
+		if(this.worldObj.rand.nextFloat()<=1.0)
+		{
+			if(argentHeat < maxArgentHeat) {argentHeat += 1+storage.getEnergyStored()/storage.getMaxEnergyStored();} // heat increases faster when power isn't flowing}
+		
+			if(!isOverheated && this.worldObj.rand.nextFloat()*maxArgentHeat<argentHeat*maxChance) //Chance of a Bad Thing goes up as argent heat goes up.
 			{
-				//storage.setEnergyStored(Math.min(storage.getEnergyStored()+10, storage.getMaxEnergyStored()));
-				storage.receiveEnergy(10, false);
-			}
-			int[] target = main.getAdjacentCoord(this.worldObj, 0, this.xCoord, this.yCoord, this.zCoord);
-			TileEntity tile = this.worldObj.getTileEntity(target[0], target[1], target[2]);
-			if(tile instanceof IEnergyHandler)
-			{
-				int maxSent=storage.extractEnergy(storage.getMaxExtract(), true);
-				int actualSent=((IEnergyHandler) tile).receiveEnergy(ForgeDirection.UP, maxSent, false);
-				storage.extractEnergy(actualSent, false);
-			}
-			if(this.worldObj.rand.nextFloat()<=1.0)
-			{
-				if(argentHeat < maxArgentHeat) {argentHeat += 1+storage.getEnergyStored()/storage.getMaxEnergyStored(); // heat increases faster when power isn't flowing}
-			
-				if(!isOverheated && this.worldObj.rand.nextFloat()*maxArgentHeat<argentHeat*maxChance) //Chance of a Bad Thing goes up as argent heat goes up.
+				if(FMLCommonHandler.instance().getEffectiveSide()==Side.SERVER)
 				{
-					if(FMLCommonHandler.instance().getEffectiveSide()==Side.SERVER)
+					//Thanks to Lunacy for helping with this part
+					double angle = worldObj.rand.nextDouble()*2*Math.PI;
+					float dist = (worldObj.rand.nextFloat()/2+0.5f)*3;
+					float newX = (float) (this.xCoord + dist*Math.cos(angle));
+					float newZ = (float) (this.zCoord + dist*Math.sin(angle));
+					float newY = this.yCoord;
+					int newXInt = Math.round(newX); int newYInt = Math.round(newY); int newZInt = Math.round(newZ);
+					if(worldObj.getBlock(newXInt,newYInt,newZInt)==Block.getBlockFromName("minecraft:air"))
 					{
-						//Thanks to Lunacy for helping with this part
-						double angle = worldObj.rand.nextDouble()*2*Math.PI;
-						float dist = (worldObj.rand.nextFloat()/2+0.5f)*3;
-						float newX = (float) (this.xCoord + dist*Math.cos(angle));
-						float newZ = (float) (this.zCoord + dist*Math.sin(angle));
-						float newY = this.yCoord;
-						int newXInt = Math.round(newX); int newYInt = Math.round(newY); int newZInt = Math.round(newZ);
-						if(worldObj.getBlock(newXInt,newYInt,newZInt)==Block.getBlockFromName("minecraft:air"))
-						{
-							EntityBlaze blaze = new EntityBlaze(worldObj);
-							blaze.setPositionAndRotation(newX, newY, newZ, 0.0f, 0.0f);
-							this.worldObj.spawnEntityInWorld(blaze);
-							blaze.spawnExplosionParticle();
-						}
-						else
-						{
-							EntityTNTPrimed tnt = new EntityTNTPrimed(worldObj);
-							tnt.setPosition(newX, newY, newZ);
-							this.worldObj.spawnEntityInWorld(tnt);
-						}
-						argentHeat/=3; // Spawning a Blaze dissipates a lot of Argent Heat.
-						overheatCounter+=1;//It also inches closer to melting the circuits.
-						if(overheatCounter >= maxOverheat)
-						{
-							isOverheated = true;
-						}
+						EntityBlaze blaze = new EntityBlaze(worldObj);
+						blaze.setPositionAndRotation(newX, newY, newZ, 0.0f, 0.0f);
+						this.worldObj.spawnEntityInWorld(blaze);
+						blaze.spawnExplosionParticle();
+					}
+					else
+					{
+						EntityTNTPrimed tnt = new EntityTNTPrimed(worldObj);
+						tnt.setPosition(newX, newY, newZ);
+						this.worldObj.spawnEntityInWorld(tnt);
+					}
+					argentHeat/=3; // Spawning a Blaze dissipates a lot of Argent Heat.
+					overheatCounter+=1;//It also inches closer to melting the circuits.
+					if(overheatCounter >= maxOverheat)
+					{
+						isOverheated = true;
 					}
 				}
-				if(isOverheated || isShutdown)
-				{
-					if(argentHeat > 0) {argentHeat -=1;}
-				}
+			}
+			if(isOverheated || isShutdown)
+			{
+				if(argentHeat > 0) {argentHeat -=1;}
 			}
 		}
+	
 	}
 	
 	public void processActivate(EntityPlayer player, World world)
