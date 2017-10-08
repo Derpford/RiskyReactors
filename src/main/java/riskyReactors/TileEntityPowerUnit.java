@@ -3,6 +3,9 @@ package riskyReactors;
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyContainerItem;
 import cofh.api.energy.IEnergyHandler;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -20,10 +23,6 @@ public class TileEntityPowerUnit extends TileEntity implements IEnergyHandler{
 		storage.setCapacity(maxStorage);
 		storage.setMaxExtract(rate);
 	}
-	
-	//int energy = 0;
-	//int maxEnergy = 2000;
-	//int maxTransfer = 80;
 	
 	public void processActivate(EntityPlayer player, World world)
 	{
@@ -50,12 +49,24 @@ public class TileEntityPowerUnit extends TileEntity implements IEnergyHandler{
 			}
 		}
 	
+	@Override
+	public void updateEntity() {
+		int[] target = main.getAdjacentCoord(this.worldObj, 0, this.xCoord, this.yCoord, this.zCoord);
+		TileEntity tile = this.worldObj.getTileEntity(target[0], target[1], target[2]);
+		if(tile instanceof IEnergyHandler)
+		{
+			int maxSent=storage.extractEnergy(storage.getMaxExtract(), true);
+			int actualSent=((IEnergyHandler) tile).receiveEnergy(ForgeDirection.UP, maxSent, false);
+			storage.extractEnergy(actualSent, false);
+		}
+	}
+	
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		storage.setEnergyStored(nbt.getInteger("energy"));
-		storage.setCapacity(nbt.getInteger("maxTransfer"));
+		storage.setMaxExtract(nbt.getInteger("maxTransfer"));
 		super.readFromNBT(nbt);
 	}
 	@Override

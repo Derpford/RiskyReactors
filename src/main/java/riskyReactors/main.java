@@ -2,13 +2,10 @@ package riskyReactors;
 
 
 import net.minecraft.block.Block;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -36,21 +33,33 @@ public class main {
 		Block target = world.getBlock(x, y, z);
 		return target;
 	}
+	public static int[] getAdjacentCoord(World world, int side, int x, int y, int z) {
+		int target[]=new int[3];
+		if(side == 0) { y -= 1;}
+		if(side == 1) { y += 1;}
+		if(side == 2) { z -= 1;}
+		if(side == 3) {	x += 1;}
+		if(side == 4) {	z += 1;}
+		if(side == 5) {	x -= 1;}
+		target[0]=x; target[1]=y; target[2]=z;
+		return target;
+		
+	}
 	public static final String modid = "riskyreactors";
 	public static final String name = "Risky Reactors";
 	public static final String version = "0.1";
+	//Worldgen
 	public static worldGen worldgen = new worldGen();
+	//Blocks
 	public static Block powerUnitCopper;
 	public static Block powerUnitAdvanced;
+	public static Block powerGenerator;
 	public static Block powerCrystal;
-	public static Item powerDrill;
-	public static Item powerDiamondDrill;
-	public static Item powerPiercingDrill;
-	public static Item powerSaw;
-	public static Item chainSword;
-	public static Class<? extends TileEntity> tilePowerUnit;
+	//Items
 	public static Item powerShard;
-	public Class<? extends TileEntity> tilePowerCrystal;
+	//TEs
+	public static Class<? extends TileEntity> tilePowerUnit;
+	public static Class<? extends TileEntity> tileEntityGenerator;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
@@ -67,15 +76,18 @@ public class main {
 		
 		System.out.println(main.name+": Making TEs");
 		tilePowerUnit = TileEntityPowerUnit.class;
+		tileEntityGenerator = TileEntityGenerator.class;
 		GameRegistry.registerTileEntity(tilePowerUnit, "TEPowerUnit");
-		GameRegistry.registerTileEntity(tilePowerCrystal, "TEPowerCrystal");
+		GameRegistry.registerTileEntity(tileEntityGenerator, "TEGenerator");
 		
 		System.out.println(main.name+": Making Blocks");
 		powerUnitCopper = new blockPowerUnitCopper();
 		powerUnitAdvanced = new blockPowerUnitAdvanced();
+		powerGenerator = new blockPowerGenerator();
 		powerCrystal = new blockPowerCrystal();
 		GameRegistry.registerBlock(powerUnitCopper, "powerUnitCopper");
 		GameRegistry.registerBlock(powerUnitAdvanced, "powerUnitAdvanced");
+		GameRegistry.registerBlock(powerGenerator, "powerGenerator");
 		GameRegistry.registerBlock(powerCrystal, "powerCrystal");
 		
 		System.out.println(main.name+": Making Items");
