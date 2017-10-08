@@ -32,7 +32,7 @@ dependencies {
     //compile "some.group:artifact:version:classifier"
     //compile "some.group:artifact:version"
       
-    compile "cofh:CoFHCore:1.7.10-3.1.4-329}:deobf"
+    compile "cofh:CoFHCore:[1.7.10]3.1.4-329:dev"
     // real examples
     //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
     //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
