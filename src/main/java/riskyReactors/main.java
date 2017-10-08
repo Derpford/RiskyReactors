@@ -54,6 +54,7 @@ public class main {
 	public static Block powerUnitCopper;
 	public static Block powerUnitAdvanced;
 	public static Block powerGenerator;
+	public static Block powerGeneratorBroken;
 	public static Block powerCrystal;
 	//Items
 	public static Item powerShard;
@@ -84,10 +85,12 @@ public class main {
 		powerUnitCopper = new blockPowerUnitCopper();
 		powerUnitAdvanced = new blockPowerUnitAdvanced();
 		powerGenerator = new blockPowerGenerator();
+		powerGeneratorBroken = new blockPowerGeneratorOverheated();
 		powerCrystal = new blockPowerCrystal();
 		GameRegistry.registerBlock(powerUnitCopper, "powerUnitCopper");
 		GameRegistry.registerBlock(powerUnitAdvanced, "powerUnitAdvanced");
 		GameRegistry.registerBlock(powerGenerator, "powerGenerator");
+		GameRegistry.registerBlock(powerGeneratorBroken, "powerGeneratorBroken");
 		GameRegistry.registerBlock(powerCrystal, "powerCrystal");
 		
 		System.out.println(main.name+": Making Items");
@@ -100,7 +103,7 @@ public class main {
 			" G ",
 			"CRC",
 			"CCC",
-			'G', "gearIron", 'C', "ingotCopper", 'R', "dustRedstone"
+			'G', main.powerShard, 'C', "ingotCopper", 'R', "dustRedstone"
 		}));
 		//Power Unit T2
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(main.powerUnitAdvanced), new Object[]{
@@ -108,6 +111,27 @@ public class main {
 			"IRI",
 			"III",
 			'G', main.powerUnitCopper, 'I', "ingotIron", 'R', "blockRedstone"
+		}));
+		//Power Crystal
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(main.powerCrystal), new Object[] {
+				" I ",
+				"IGI",
+				" I ",
+				'I', main.powerCrystal, 'G', "dustRedstone"
+		}));
+		//Argent Reactor
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(main.powerGenerator), new Object[] {
+				" I ",
+				"IGI",
+				" R ",
+				'I', "ingotIron", 'G', main.powerCrystal, 'R', "dustRedstone"
+		}));
+		//Fixing an Argent Reactor
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(main.powerGenerator), new Object[] {
+				"   ",
+				" G ",
+				" R ",
+				'G', main.powerGeneratorBroken, 'R', main.powerShard
 		}));
 	}
 }

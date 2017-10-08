@@ -3,9 +3,6 @@ package riskyReactors;
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyContainerItem;
 import cofh.api.energy.IEnergyHandler;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -46,8 +43,8 @@ public class TileEntityPowerUnit extends TileEntity implements IEnergyHandler{
 				}
 				
 			}
-			}
 		}
+	}
 	
 	@Override
 	public void updateEntity() {
