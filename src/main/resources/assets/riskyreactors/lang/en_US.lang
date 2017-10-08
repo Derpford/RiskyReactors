@@ -5,3 +5,10 @@ item.simplypowertools_itemDiamondDrill.name=Diamond Drill
 item.simplypowertools_itemPiercingDrill.name=Drill of Piercing
 item.simplypowertools_itemSaw.name=Chainsaw
 item.simplypowertools_itemChainSword.name=Chainsword!
+
+tile.riskyreactors_blockPowerUnitCopper.name=Copper Power Unit
+tile.riskyreactors_blockPowerUnitAdvanced.name=Advanced Power Unit
+tile.riskyreactors_blockPowerGenerator.name=Argent Reactor
+tile.riskyreactors_blockPowerGeneratorBroken.name=Overheated Argent Reactor
+tile.riskyreactors_blockPowerCrystal.name=Power Crystal
+item.riskyreactors_powerShard.name=Power Shard
